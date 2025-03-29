@@ -49,7 +49,7 @@ export function HouseSettings() {
                         <h2 className='font-semibold mt-4'>Количество дверей:</h2>
                         <input
                             type="number"
-                            value={house.doors}
+                            value={house.doors ?? ''}
                             onChange={(e) => updateHouse({ doors: +e.target.value })}
                             className="w-full border border-gray-300 rounded-md p-2"
                         />

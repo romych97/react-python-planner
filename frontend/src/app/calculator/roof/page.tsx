@@ -15,10 +15,10 @@ export default function RoofCalculator() {
         counterBatten: false,
         insulation: false,
         rafterSpacing: 60,
-        houseLength: 1000,  // Длина дома
-        houseWidth: 1000,   // Ширина дома
-        roofHeight: 300,    // Высота крыши
-        roofOverhang: 50    // Вынос крыши
+        houseLength: 1000,
+        houseWidth: 1000,
+        roofHeight: 300,
+        roofOverhang: 50
     });
 
     const handleInputChange = (e: any) => {

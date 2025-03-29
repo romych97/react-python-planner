@@ -14,10 +14,12 @@ interface HouseState {
 
 export const useHouseStore = create((set) => ({
   house: {
-    width: 1000, // в см
+    width: 1000, // in cm
     length: 1500,
     height: 300,
     wallThickness: 22,
+    doors: [{ x: 100, y: 250 }],
+    windows: [{ x: 150, y: 50 }],
   },
   roof: {
     type: 'gable',

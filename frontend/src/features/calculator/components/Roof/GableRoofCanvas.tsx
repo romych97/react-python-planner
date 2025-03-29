@@ -7,53 +7,52 @@ export default function GableRoofCanvas({ roofParams }: any) {
     useEffect(() => {
         const canvas = canvasRef.current as any;
         const ctx = canvas.getContext('2d');
-        const canvasSize = 600;  // Размер канваса в пикселях
-        const beamWidthInCm = 40;  // Ширина мауэрлата в см
+        const canvasSize = 600;
+        const beamWidthInCm = 40;
         const ridgeBeamWidthCm = 20;
-        const padding = 70;  // Паддинг в пикселях
+        const padding = 70;
 
-        // Определяем масштаб (чтобы макет не выходил за границы канваса)
+        // We determine the scale (so that the layout does not go beyond the canvas boundaries)
         const maxHouseDimension = Math.max(houseLength, houseWidth);
         const cmToPx = (canvasSize - padding * 2) / (maxHouseDimension + roofOverhang * 2);
 
-        // Размеры элементов в пикселях
+        // Elements size in px
         const houseLengthInPx = houseLength * cmToPx;
         const houseWidthInPx = houseWidth * cmToPx;
         const ridgeBeamWidthPx = ridgeBeamWidthCm * cmToPx;
         const beamWidthInPx = beamWidthInCm * cmToPx;
         const overhangInPx = roofOverhang * cmToPx;
 
-        // Очистка Canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Позиция начала отрисовки
+        // Position of start render
         const startX = (canvas.width - houseLengthInPx) / 2;
         const startY = (canvas.height - houseWidthInPx) / 2;
 
-        // 🔹 Заливка области дома
-        ctx.fillStyle = '#fff';  // Светло-серый цвет
+        // FIll house area
+        ctx.fillStyle = '#fff';
         ctx.fillRect(startX, startY, houseLengthInPx, houseWidthInPx);
 
-        // 🔹 Mauerlat (ПЕРИМЕТР)
+        // Mauerlat
         ctx.fillStyle = '#ffb84d';
         ctx.strokeStyle = '#f9d15a';
         ctx.lineWidth = 2;
 
-        // Верхняя и нижняя линии мауэрлата
+        // Top and Botton border of Mauerlat
         ctx.fillRect(startX, startY, houseLengthInPx, beamWidthInPx);
         ctx.strokeRect(startX, startY, houseLengthInPx, beamWidthInPx);
 
         ctx.fillRect(startX, startY + houseWidthInPx - beamWidthInPx, houseLengthInPx, beamWidthInPx);
         ctx.strokeRect(startX, startY + houseWidthInPx - beamWidthInPx, houseLengthInPx, beamWidthInPx);
 
-        // Левая и правая линии мауэрлата
+        // Left and right border of Mauerlat
         ctx.fillRect(startX, startY, beamWidthInPx, houseWidthInPx);
         ctx.strokeRect(startX, startY, beamWidthInPx, houseWidthInPx);
 
         ctx.fillRect(startX + houseLengthInPx - beamWidthInPx, startY, beamWidthInPx, houseWidthInPx);
         ctx.strokeRect(startX + houseLengthInPx - beamWidthInPx, startY, beamWidthInPx, houseWidthInPx);
 
-        // 🔹 Обрешетка
+        // lathing
         ctx.fillStyle = '#ffeaaa';
         ctx.strokeStyle = '#e9c862';
         ctx.lineWidth = 1;
@@ -70,7 +69,7 @@ export default function GableRoofCanvas({ roofParams }: any) {
             ctx.strokeRect(startX - overhangInPx, y - battenWidth * cmToPx / 2, houseLengthInPx + overhangInPx * 2, battenWidth * cmToPx);
         }
 
-        // Коньковый прогон
+        // Ridge
         ctx.fillStyle = '#ffeaaa';
         ctx.strokeStyle = '#e9c862';
         const ridgeX = startX - overhangInPx;
@@ -78,13 +77,13 @@ export default function GableRoofCanvas({ roofParams }: any) {
         ctx.fillRect(ridgeX, ridgeY, houseLengthInPx + overhangInPx * 2, ridgeBeamWidthPx);
         ctx.strokeRect(ridgeX, ridgeY, houseLengthInPx + overhangInPx * 2, ridgeBeamWidthPx);
 
-        // Добавим линии с размерами (стрелки и текст)
+        // Line with sizes
         drawDimensionLine({
             ctx: ctx,
-            x1: startX - overhangInPx - 15, // Смещение линии влево от модели
-            y1: startY - overhangInPx,      // Начало линии вверху
-            x2: startX - overhangInPx - 15, // Конец линии тоже влево от модели
-            y2: startY + houseWidthInPx + overhangInPx, // Низ линии
+            x1: startX - overhangInPx - 15, // Offset the line to the left of the model
+            y1: startY - overhangInPx,      // Start of line at top
+            x2: startX - overhangInPx - 15, // The end of the line is also to the left of the model
+            y2: startY + houseWidthInPx + overhangInPx, // Bottom of the line
             label: `${houseLength}`,
             orientation: 'vertical'
         });
@@ -99,7 +98,7 @@ export default function GableRoofCanvas({ roofParams }: any) {
             orientation: 'horizontal'
         });
 
-        // Стропильная система
+        // Rafter system
         const rafterWidthInPx = 6 * cmToPx;
         const totalHeightInPx = houseWidthInPx + 2 * overhangInPx;
 
@@ -115,10 +114,9 @@ export default function GableRoofCanvas({ roofParams }: any) {
 
     }, [roofParams]);
 
-    // Функция для рисования линии с размером
+    // Function to draw a line with size
     const drawDimensionLine = ({ ctx, x1, y1, x2, y2, label, orientation }: any) => {
 
-        // Размер стрелок
         const arrowSize = 6;
 
         ctx.beginPath();
@@ -131,25 +129,25 @@ export default function GableRoofCanvas({ roofParams }: any) {
         ctx.fillStyle = 'black';
 
         if (orientation === 'vertical') {
-            // Левая стрелка
+            // Left arrow
             ctx.beginPath();
-            ctx.moveTo(x1, y1);             // Начало стрелки
-            ctx.lineTo(x1 - arrowSize, y1 + arrowSize); // Левая часть стрелки
-            ctx.lineTo(x1 + arrowSize, y1 + arrowSize); // Правая часть стрелки
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x1 - arrowSize, y1 + arrowSize);
+            ctx.lineTo(x1 + arrowSize, y1 + arrowSize);
             ctx.closePath();
             ctx.fill();
 
-            // Правая стрелка
+            // Right arrow
             ctx.beginPath();
-            ctx.moveTo(x2, y2);             // Начало стрелки
-            ctx.lineTo(x2 - arrowSize, y2 - arrowSize); // Левая часть стрелки
-            ctx.lineTo(x2 + arrowSize, y2 - arrowSize); // Правая часть стрелки
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - arrowSize, y2 - arrowSize);
+            ctx.lineTo(x2 + arrowSize, y2 - arrowSize);
             ctx.closePath();
             ctx.fill();
         }
         if (orientation === 'horizontal') {
 
-            // Левая стрелка (указатель вправо)
+            // Left arrow
             ctx.beginPath();
             ctx.moveTo(x1, y1);
             ctx.lineTo(x1 + arrowSize, y1 - arrowSize);
@@ -157,7 +155,7 @@ export default function GableRoofCanvas({ roofParams }: any) {
             ctx.closePath();
             ctx.fill();
 
-            // Правая стрелка (указатель влево)
+            // Right arrow
             ctx.beginPath();
             ctx.moveTo(x2, y2);
             ctx.lineTo(x2 - arrowSize, y2 - arrowSize);
@@ -166,7 +164,7 @@ export default function GableRoofCanvas({ roofParams }: any) {
             ctx.fill();
         }
 
-        // Текст (по центру линии)
+        // Text
         ctx.font = '10px Arial';
 
         const textOffset = orientation === 'vertical' ? 15 : -15;
@@ -176,7 +174,7 @@ export default function GableRoofCanvas({ roofParams }: any) {
         if (orientation === 'vertical') {
             ctx.fillText(label, midX - 30, midY);
         } else {
-            ctx.fillText(label, midX, midY + 15);  // Смещение текста выше линии
+            ctx.fillText(label, midX, midY + 15);
         }
 
     };
