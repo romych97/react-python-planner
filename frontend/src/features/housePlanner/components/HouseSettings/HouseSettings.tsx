@@ -3,10 +3,29 @@ import { useHouseStore } from '@/store/houseStore';
 
 export function HouseSettings() {
     const { house, updateHouse } = useHouseStore() as any;
+    const { mode, setMode } = useHouseStore() as any;
 
     return (
         <div className="mb-5">
             <div>
+                <div className="p-4 flex gap-4 bg-white">
+                    <button
+                        className={`px-4 py-2 border rounded ${mode === 'walls' ? 'bg-gray-300' : 'bg-gray-100'}`}
+                        onClick={() => setMode(mode === 'walls' ? null : 'walls')}
+                    >
+                        Стены
+                    </button>
+                </div>
+                <div className="p-4 flex gap-4 bg-white">
+                    <button
+                        className={`px-4 py-2 border rounded ${mode === 'rooms' ? 'bg-gray-300' : 'bg-gray-100'}`}
+                        onClick={() => setMode(mode === 'rooms' ? null : 'rooms')}
+                    >
+                        Комнаты
+                    </button>
+                </div>
+            </div>
+            {/* <div>
                 <h2 className="text-xl font-bold mb-4">Параметры дома</h2>
                 <div>
                     <div>
@@ -55,7 +74,7 @@ export function HouseSettings() {
                         />
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }

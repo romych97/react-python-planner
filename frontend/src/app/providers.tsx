@@ -8,7 +8,7 @@ interface ProvidersProps {
 }
 
 export const Providers = ({ children }: ProvidersProps) => {
-  const [queryCl ient] = useState(() => new QueryClient());
+  const [queryClient, setQueryClient] = useState(() => new QueryClient());
 
   return (
     <QueryClientProvider client={queryClient}>

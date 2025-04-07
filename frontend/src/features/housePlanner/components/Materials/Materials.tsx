@@ -1,6 +1,6 @@
 'use client'
 
-import { useHouseStore } from '@/features/housePlanner/store';
+import { useHouseStore } from '@/store/houseStore';
 
 export function Materials() {
     const { house, updateHouse } = useHouseStore() as any;
