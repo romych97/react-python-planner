@@ -1,11 +1,11 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['builder-calc.com'], // Указываем домен
+    domains: ['builder-calc.com'],
     loader: 'custom',
-    path: '', // Оставляем пустым, чтобы не добавлять /_next/image?
+    path: '', // Leave it empty so as not to add /_next/image?
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
